@@ -32,21 +32,36 @@ define flyway::instance (
       postgresql::hba { "flyway_${::fqdn}_${db_server}_${db}":
         ensure    => present,
         type      => 'hostssl',
-        database  => 'all',
+        database  => $db,
         user      => $db_user,
         address   => 'localhost',
         method    => 'md5',
         tag       => "postgresql_${::environment}_${::location}"
+      }
+
+      postgresql::role { "flyway_role_${::fqdn}_${db_server}_${db}_${db_user}":
+        ensure    => present,
+        rolename  => $db_user,
+        superuser => true,
+        password  => $db_pass,
       }
     }
     default: {
       @@postgresql::hba { "flyway_${::fqdn}_${db_server}_${db}":
         ensure    => present,
         type      => 'hostssl',
-        database  => 'all',
+        database  => $db,
         user      => $db_user,
         address   => $::fqdn,
         method    => 'md5',
+        tag       => "postgresql_${::environment}_${::location}"
+      }
+
+      @@postgresql::role { "flyway_role_${::fqdn}_${db_server}_${db}_${db_user}":
+        ensure    => present,
+        rolename  => $db_user,
+        superuser => true,
+        password  => $db_pass,
         tag       => "postgresql_${::environment}_${::location}"
       }
     }
