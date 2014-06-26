@@ -40,7 +40,6 @@ define flyway::instance (
       }
 
       postgresql::role { "flyway_role_${::fqdn}_${db_server}_${db}_${db_user}":
-        ensure    => present,
         rolename  => $db_user,
         superuser => true,
         password  => $db_pass,
@@ -58,7 +57,6 @@ define flyway::instance (
       }
 
       @@postgresql::role { "flyway_role_${::fqdn}_${db_server}_${db}_${db_user}":
-        ensure    => present,
         rolename  => $db_user,
         superuser => true,
         password  => $db_pass,
