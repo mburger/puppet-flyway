@@ -114,6 +114,7 @@ class flyway (
   $config_file_mode           = params_lookup( 'config_file_mode' ),
   $config_file_owner          = params_lookup( 'config_file_owner' ),
   $config_file_group          = params_lookup( 'config_file_group' ),
+  $instances                  = params_lookup( 'instances' )
   ) inherits flyway::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
@@ -165,6 +166,12 @@ class flyway (
       class { 'flyway::config': } ->
       Class['flyway']
     }
+  }
+
+  ### Create instances for integration with Hiera
+  if $instances != {} {
+    validate_hash($instances)
+    create_resources(flyway::instance, $instances)
   }
 
   ### Debugging, if enabled ( debug => true )

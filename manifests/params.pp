@@ -45,6 +45,7 @@ class flyway::params {
   $version = 'present'
   $absent = false
   $disable = false
+  $instances = {}
 
   ### General module variables that can have a site or per module default
   $debug = false
