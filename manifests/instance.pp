@@ -11,7 +11,7 @@ define flyway::instance (
   $flyway_base   = $::flyway::config_dir,
 ) {
 
-  require flyway
+  include flyway
 
   if $title =~ /^(flw-)/ {
     $instance_name = $title
